@@ -57,7 +57,7 @@ namespace CityMvc.Controllers.API
             {
                 CityDB.Citizens.InsertOnSubmit(citizen);
                 CityDB.SubmitChanges();
-                return Ok()
+                return Ok("item was added");
             }
             catch(SqlException err)
             {
