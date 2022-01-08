@@ -70,13 +70,48 @@ namespace CityMvc.Controllers.API
         }
 
         // PUT: api/City/5
-        public void Put(int id, [FromBody]string value)
+        public IHttpActionResult Put(int id, [FromBody]Citizen citizen)
         {
+            try
+            {
+            Citizen StudentFound = CityDB.Citizens.First((CitizenItem) => CitizenItem.Id == id);
+            StudentFound.FName = citizen.FName;
+            StudentFound.LName = citizen.LName;
+            StudentFound.BirthDay = citizen.BirthDay;
+            StudentFound.Addres = citizen.Addres;
+            StudentFound.Seniority = citizen.Seniority;
+            CityDB.SubmitChanges();
+            return Ok("item was update");
+            }
+            catch (SqlException err)
+            {
+                return Ok(new { err.Message });
+            }
+            catch(Exception err)
+            {
+                return Ok(new { err.Message });
+            }
+
         }
 
         // DELETE: api/City/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
+            try
+            {
+            CityDB.Citizens.DeleteOnSubmit(CityDB.Citizens.First((CitizenItem) => (CitizenItem.Id == id));
+            CityDB.SubmitChanges();
+            return Ok("item deleted");
+            }
+            catch(SqlException err)
+            {
+                return Ok(new { err.Message });
+            }
+            catch(Exception err)
+            {
+                return Ok(new { err.Message });
+            }
+
         }
     }
 }
